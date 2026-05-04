@@ -19,8 +19,9 @@ const formMappings = require("./formMappings");
 const app = express();
 app.use(cors());
 app.use(bodyParser.json());
+app.use("/forms", express.static(path.join(__dirname, "forms")));
 
-app.use("/files", express.static(path.join(__dirname)));
+
 
 app.get("/", (_req, res) => {
   res.send("GramaSathi Backend API is running");
@@ -102,13 +103,7 @@ async function runTask(userId, title, formLink) {
   // Wait before PDF
   await new Promise(r => setTimeout(r, 1500));
 
-  // =============================
-  // 📄 BEFORE PDF
-  // =============================
-
-  const beforePath = path.join(__dirname, `${taskRef.id}_before.pdf`);
-  await page.pdf({ path: beforePath, format: "A4" });
-
+ 
   // =============================
   // 🚀 SUBMIT
   // =============================
@@ -126,12 +121,6 @@ async function runTask(userId, title, formLink) {
     }
   }
 
-  // =============================
-  // 📄 AFTER PDF
-  // =============================
-
-  const afterPath = path.join(__dirname, `${taskRef.id}_after.pdf`);
-  await page.pdf({ path: afterPath, format: "A4" });
 
   await browser.close();
 
@@ -144,10 +133,7 @@ async function runTask(userId, title, formLink) {
 
   return {
     taskId: taskRef.id,
-    pdfs: {
-      before: `/files/${taskRef.id}_before.pdf`,
-      after: `/files/${taskRef.id}_after.pdf`
-    }
+    
   };
 }
 
@@ -229,7 +215,7 @@ app.post("/ai-response", async (req, res) => {
 
 });
 
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server running at http://localhost:${PORT}`);
 });

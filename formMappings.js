@@ -1,5 +1,10 @@
 // formMappings.js
+
+const BASE_URL = "http://localhost:3000/forms";
+
 module.exports = {
+
+  // ---------------- EXTERNAL (keep as-is) ----------------
   "https://gov-portal.com/schemeX": {
     name: "#fullName",
     email: "#emailField",
@@ -8,13 +13,17 @@ module.exports = {
     complaint: "#details",
     submit: "#submitBtn"
   },
+
   "https://ngo-form.org/report": {
     name: "input[name='user_name']",
     email: "input[name='user_email']",
     complaint: "textarea[name='description']",
     submit: "button[type='submit']"
   },
-  "http://127.0.0.1:5500/dummyForm.html": {
+
+  // ---------------- LOCAL FORMS ----------------
+
+  [`${BASE_URL}/dummyForm.html`]: {
     name: "#fullName",
     email: "#emailField",
     phone: "#phoneInput",
@@ -22,14 +31,15 @@ module.exports = {
     complaint: "#details",
     submit: "#submitBtn"
   },
-  "http://127.0.0.1:5500/gramasathi-backend/forms/form.html": {
+
+  [`${BASE_URL}/form.html`]: {
     name: "#name",
     aadhaar_number: "#aadhaar_number",
     phone: "#phone",
-    submit: "button[type='submit']"},
+    submit: "button[type='submit']"
+  },
 
-
-  "http://127.0.0.1:5500/gramasathi-backend/forms/incomeform.html": {
+  [`${BASE_URL}/incomeform.html`]: {
     name: "#name",
     father_name: "#father_name",
     dob: "#dob",
@@ -56,5 +66,7 @@ module.exports = {
     date: "#date",
     place: "#place",
     signature: "#signature",
-    submit: "#submit"}
-  };
+    submit: "#submit"
+  }
+
+};
