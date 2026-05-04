@@ -1,9 +1,14 @@
 const admin = require("firebase-admin");
-const serviceAccount = require("./serviceAccountKey.json");
+
+if (!process.env.FIREBASE_CONFIG) {
+  throw new Error("FIREBASE_CONFIG not set");
+}
+
+const serviceAccount = JSON.parse(process.env.FIREBASE_CONFIG);
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
-  storageBucket: "YOUR_PROJECT_ID.appspot.com",
+  storageBucket: `${serviceAccount.project_id}.appspot.com`,
 });
 
 const db = admin.firestore();
